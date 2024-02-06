@@ -32,7 +32,6 @@ export class UsersController {
     return newUser;
   }
 
-  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();

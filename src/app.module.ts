@@ -10,8 +10,8 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     UsersModule,
     AuthModule,
-    MongooseModule.forRoot('mongodb://127.0.0.1:27017/nest-starter'),
     ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
   ],
   controllers: [AppController],
   providers: [AppService],
