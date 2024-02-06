@@ -11,12 +11,14 @@ import {
   NotFoundException,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import mongoose from 'mongoose';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -38,8 +40,9 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get('check')
-  check() {
-    return { message: 'connected', status: 200 };
+  check(@Req() req: Request) {
+    const { name } = req.body.user;
+    return { message: 'Welcome ' + name, status: 200 };
   }
 
   @Get(':id')
