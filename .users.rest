@@ -1,0 +1,16 @@
+GET http://localhost:3000/users
+
+###
+
+GET http://localhost:3000/users/65c22d61fac6522baadbc349
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name":"zed",
+    "email":"zed@gmail.com",
+    "hashed_password":"sdfifhodifj993894vffiojf"
+}
