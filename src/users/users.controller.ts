@@ -26,7 +26,6 @@ export class UsersController {
   async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     const { email } = createUserDto;
     const ExistingUser = await this.usersService.findByEmail(email);
-    console.log(ExistingUser);
     if (ExistingUser) throw new HttpException('Email Already Exist', 403);
     const newUser = await this.usersService.create(createUserDto);
     return newUser;
@@ -35,6 +34,12 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('check')
+  check() {
+    return { message: 'connected', status: 200 };
   }
 
   @Get(':id')

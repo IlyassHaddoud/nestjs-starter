@@ -11,9 +11,6 @@ export class AuthService {
 
   async SignIn(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
-    console.log(user);
-    console.log(email);
-    console.log(password);
     if (user && password == user.hashed_password) {
       const payload = { sub: user._id, name: user.name };
       return {
