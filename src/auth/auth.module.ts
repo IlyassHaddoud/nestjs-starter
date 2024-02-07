@@ -6,14 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    UsersModule,
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT_SECRET,
-    }),
-  ],
+  imports: [ConfigModule.forRoot(), UsersModule],
   controllers: [AuthController],
   providers: [AuthService],
 })
