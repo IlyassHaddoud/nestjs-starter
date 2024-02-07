@@ -20,16 +20,25 @@ import mongoose from 'mongoose';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
 import { Request } from 'express';
 
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+    const { email } = createUserDto;
+    const ExistingUser = await this.usersService.findByEmail(email);
+    if (ExistingUser) throw new HttpException('Email Already Exist', 403);
+    const newUser = await this.usersService.create(createUserDto);
+    return newUser;
+  }
 
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard)
   @Get('check')
   check(@Req() req: Request) {
     const { name } = req.body.user;
@@ -45,13 +54,16 @@ export class UsersController {
     return user;
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    const IsValidId = mongoose.Types.ObjectId.isValid(id);
+    if (!IsValidId) throw new HttpException('Invalid User Id', 401);
+    const newUser = await this.usersService.update(id, updateUserDto);
+    return newUser;
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(id);
+  }
 }

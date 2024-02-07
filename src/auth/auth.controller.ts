@@ -1,7 +1,14 @@
-import { Body, Controller, HttpException, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { AuthLoginDto } from './dto/auth-login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -11,11 +18,8 @@ export class AuthController {
   ) {}
 
   @Post('login')
-  signIn(@Body() signInUser: { email: string; hashed_password: string }) {
-    return this.authService.SignIn(
-      signInUser.email,
-      signInUser.hashed_password,
-    );
+  signIn(@Body(ValidationPipe) signInUser: AuthLoginDto) {
+    return this.authService.SignIn(signInUser);
   }
 
   @Post('register')
