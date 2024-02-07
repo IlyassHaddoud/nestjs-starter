@@ -24,15 +24,6 @@ import { Request } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    const { email } = createUserDto;
-    const ExistingUser = await this.usersService.findByEmail(email);
-    if (ExistingUser) throw new HttpException('Email Already Exist', 403);
-    const newUser = await this.usersService.create(createUserDto);
-    return newUser;
-  }
-
   @Get()
   findAll() {
     return this.usersService.findAll();
