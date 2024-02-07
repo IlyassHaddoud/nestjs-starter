@@ -12,7 +12,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # Env variables
-*.env
+*.env*
 
 # Restfull files
 *.rest
