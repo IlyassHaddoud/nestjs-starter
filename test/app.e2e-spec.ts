@@ -28,7 +28,7 @@ describe('User and Auth Controllers (e2e)', () => {
   });
 
   afterAll(async () => {
-    await mongoose.connection.db.dropDatabase();
+    // await mongoose.connection.db.dropDatabase();
     await mongoose.disconnect();
   });
 
