@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
+      - name: Set up environment
+        run: |
+          export NODE_ENV=test
       - name: 'npm install, build, and test'
         run: |
           npm install
