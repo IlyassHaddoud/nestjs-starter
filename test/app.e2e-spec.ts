@@ -33,7 +33,6 @@ describe('User and Auth Controllers (e2e)', () => {
   });
 
   it('process.env.NODE_ENV should be defined', () => {
-    console.log('writing env : ');
     console.log(process.env.NODE_ENV);
     expect(process.env.NODE_ENV).toBeDefined();
   });

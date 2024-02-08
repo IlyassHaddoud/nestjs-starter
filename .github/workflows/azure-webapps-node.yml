@@ -15,9 +15,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
-      - name: Set up environment
+      - name: create env file
         run: |
-          export NODE_ENV=test
+          touch .env.test
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.test
+          echo JWT_SECRET=${{ secrets. JWT_SECRET }} >> .env.test
       - name: 'npm install, build, and test'
         run: |
           npm install
