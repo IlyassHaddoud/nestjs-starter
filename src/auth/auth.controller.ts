@@ -18,11 +18,13 @@ export class AuthController {
     private usersService: UsersService,
   ) {}
 
+  @HttpCode(200)
   @Post('login')
   signIn(@Body(ValidationPipe) signInUser: AuthLoginDto) {
     return this.authService.SignIn(signInUser);
   }
 
+  @HttpCode(201)
   @Post('register')
   async signUp(@Body(ValidationPipe) signUpUser: CreateUserDto) {
     const { email } = signUpUser;

@@ -82,7 +82,7 @@ describe('User and Auth Controllers (e2e)', () => {
     return request(app.getHttpServer())
       .post('/auth/login')
       .send({ email: user.email, hashed_password: user.hashed_password })
-      .expect(201)
+      .expect(200)
       .expect((res) => {
         expect(res.body.access_token).toBeDefined();
         authToken = res.body.access_token;

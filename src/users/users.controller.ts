@@ -12,12 +12,14 @@ import {
   HttpStatus,
   UseGuards,
   Req,
+  HttpCode,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import mongoose from 'mongoose';
-import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
+import { AuthGuard } from 'src/common/guards/auth/auth.guard';
 import { Request } from 'express';
 
 @UseGuards(AuthGuard)
@@ -25,6 +27,7 @@ import { Request } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @HttpCode(201)
   @Post()
   async create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     const { email } = createUserDto;
@@ -34,17 +37,20 @@ export class UsersController {
     return newUser;
   }
 
+  @HttpCode(200)
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @HttpCode(200)
   @Get('check')
   check(@Req() req: Request) {
     const { name } = req.body.user;
     return { message: 'Welcome ' + name, status: 200 };
   }
 
+  @HttpCode(200)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const IsValidId = mongoose.Types.ObjectId.isValid(id);
@@ -54,6 +60,7 @@ export class UsersController {
     return user;
   }
 
+  @HttpCode(200)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const IsValidId = mongoose.Types.ObjectId.isValid(id);
@@ -62,6 +69,7 @@ export class UsersController {
     return newUser;
   }
 
+  @HttpCode(200)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
