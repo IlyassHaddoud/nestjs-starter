@@ -3,7 +3,6 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import mongoose from 'mongoose';
-import { ConfigModule } from '@nestjs/config';
 
 describe('User and Auth Controllers (e2e)', () => {
   let app: INestApplication;
