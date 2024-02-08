@@ -32,6 +32,18 @@
 $ npm install
 ```
 
+## Before running the app
+
+```bash
+# you have to add a key value pair for JWT_SECRET & DATABASE_URL
+$ touch .env.test
+```
+
+```bash
+# you have to add a key value pair for JWT_SECRET & DATABASE_URL
+$ touch .env.development
+```
+
 ## Running the app
 
 ```bash
