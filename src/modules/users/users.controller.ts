@@ -44,6 +44,12 @@ export class UsersController {
   }
 
   @HttpCode(200)
+  @Get()
+  test() {
+    return 'Working...';
+  }
+
+  @HttpCode(200)
   @Get('check')
   check(@Req() req: Request) {
     const { name } = req.body.user;
