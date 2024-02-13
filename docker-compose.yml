@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  mongo_db:
+    container_name: database_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongo_db:/data/db
+  nestjs-api:
+    container_name: nestjs_api_container
+    build: .
+    ports:
+      - 80:8080
+    environment:
+      DATABASE_URL: mongodb://mongo_db:27017/nestjs-database
+      JWT_SECRET: s6fIt7yzxl9yw8gh65VfTveyLd9aFLfVspCzg+uei0OOVLccwIilZbAj8f1SkaKX8aZsCXJzg87f29FwfJIMYg==
+    depends_on:
+      - mongo_db

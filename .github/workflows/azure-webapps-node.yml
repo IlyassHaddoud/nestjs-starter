@@ -1,34 +1,21 @@
-name: Build ,Test & Deploy to Azure App Service
-
+name: Docker Compose CI
 on:
   push:
     branches:
-      - master
-
+      - main
 jobs:
-  build-test-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source
-        uses: actions/checkout@v3
-      - name: Setup Node.js version
-        uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
         with:
-          node-version: '18.x'
-      - name: create env file
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker images
         run: |
-          touch .env.test
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.test
-          echo JWT_SECRET=${{ secrets. JWT_SECRET }} >> .env.test
-      - name: 'npm install, build, and test'
-        run: |
-          npm install -g @nestjs/cli
-          npm install
-          npm run build --if-present
-          npm run test:e2e --if-present
-      - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: harmony-nest-api
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: .
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
